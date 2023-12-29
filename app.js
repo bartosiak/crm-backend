@@ -10,11 +10,16 @@ mongoose
         console.log("MongoDB is Connected!");
     })
     .catch((err) => {
-        throw err;
+        console.error("Error connecting to MongoDB:", err);
+        process.exit(1);
     });
 
 const app = express();
 app.use(cors());
+
+const customerRouter = require("./app/router/customerRouter");
+
+app.use("/crm", customerRouter);
 
 app.listen(config.app.port, () => {
     console.log(`Express server is running on port: ${config.app.port}`);
