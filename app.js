@@ -15,6 +15,7 @@ mongoose
     });
 
 const app = express();
+app.use(express.json());
 app.use(cors());
 
 const customerRouter = require("./app/router/customerRouter");
