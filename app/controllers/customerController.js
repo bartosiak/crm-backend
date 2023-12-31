@@ -4,7 +4,7 @@ module.exports = {
     index: async (req, res, next) => {
         try {
             const customers = await customerModel.find({});
-            res.json(customers);
+            return res.status(200).json(customers);
         } catch (err) {
             return res.status(500).json({
                 message: "Error while fetching Customers",
@@ -12,10 +12,18 @@ module.exports = {
             });
         }
     },
+
     show: async (req, res, next) => {
         try {
             const customer = await customerModel.findById(req.params.id);
-            res.json(customer);
+
+            if (!customer) {
+                return res.status(404).json({
+                    message: "Customer not found",
+                });
+            }
+
+            return res.status(200).json(customer);
         } catch (err) {
             return res.status(500).json({
                 message: "Error while fetching Customer",
@@ -23,6 +31,7 @@ module.exports = {
             });
         }
     },
+
     create: async (req, res, next) => {
         try {
             const newCustomer = new customerModel({
@@ -45,6 +54,7 @@ module.exports = {
             });
         }
     },
+
     delete: async (req, res, next) => {
         try {
             const deletedCustomer = await customerModel.findByIdAndDelete(
@@ -57,35 +67,10 @@ module.exports = {
                 });
             }
 
-            return res.status(200).json({
-                message: "Customer deleted successfully",
-                deletedCustomer,
-            });
+            return res.status(200).json(deletedCustomer);
         } catch (err) {
             return res.status(500).json({
                 message: "Error while deleting Customer",
-                error: err.message,
-            });
-        }
-    },
-    create: async (req, res, next) => {
-        try {
-            const newCustomer = new customerModel({
-                name: req.body.name,
-                address: {
-                    street: req.body.address.street,
-                    zipCode: req.body.address.zipCode,
-                    city: req.body.address.city,
-                },
-                nip: req.body.nip,
-            });
-
-            const savedCustomer = await newCustomer.save();
-
-            return res.status(201).json(savedCustomer);
-        } catch (err) {
-            return res.status(500).json({
-                message: "Error while creating Customer",
                 error: err.message,
             });
         }
