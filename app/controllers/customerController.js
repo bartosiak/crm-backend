@@ -75,4 +75,25 @@ module.exports = {
             });
         }
     },
+    updateCustomer: async (req, res, next) => {
+        try {
+            const updatedCustomer = await customerModel.findByIdAndUpdate(
+                req.params.id,
+                req.body
+            );
+
+            if (!updatedCustomer) {
+                return res.status(404).json({
+                    message: "Customer not found",
+                });
+            }
+
+            return res.status(200).json(updatedCustomer);
+        } catch (err) {
+            return res.status(500).json({
+                message: "Error while updating Customer",
+                error: err.message,
+            });
+        }
+    },
 };

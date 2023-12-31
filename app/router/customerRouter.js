@@ -10,4 +10,6 @@ router.post("/add-customer", customerController.create);
 
 router.delete("/delete-customer/:id", customerController.delete);
 
+router.put("/update-customer/:id", customerController.updateCustomer);
+
 module.exports = router;
