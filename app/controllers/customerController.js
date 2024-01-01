@@ -47,10 +47,10 @@ module.exports = {
             const savedCustomer = await newCustomer.save();
 
             return res.status(201).json(savedCustomer);
-        } catch (err) {
+        } catch (error) {
             return res.status(500).json({
                 message: "Error while creating Customer",
-                error: err.message,
+                error: error.message,
             });
         }
     },
@@ -75,11 +75,12 @@ module.exports = {
             });
         }
     },
-    updateCustomer: async (req, res, next) => {
+    update: async (req, res, next) => {
         try {
             const updatedCustomer = await customerModel.findByIdAndUpdate(
                 req.params.id,
-                req.body
+                req.body,
+                { new: true }
             );
 
             if (!updatedCustomer) {

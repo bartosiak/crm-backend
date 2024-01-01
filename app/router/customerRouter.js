@@ -4,12 +4,12 @@ const customerController = require("../controllers/customerController");
 
 router.get("/customers", customerController.index);
 
-router.get("/customer/:id", customerController.show);
+router.post("/customers", customerController.create);
 
-router.post("/add-customer", customerController.create);
+router.get("/customers/:id", customerController.show);
 
-router.delete("/delete-customer/:id", customerController.delete);
+router.put("/customers/:id", customerController.update);
 
-router.put("/update-customer/:id", customerController.updateCustomer);
+router.delete("/customers/:id", customerController.delete);
 
 module.exports = router;

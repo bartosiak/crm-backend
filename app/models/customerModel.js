@@ -15,6 +15,19 @@ const customerSchema = new Schema({
         required: true,
     },
     nip: String,
+    actions: {
+        type: [
+            {
+                description: String,
+                type: {
+                    type: String,
+                    enum: ["mail", "phone", "meeting"],
+                },
+                date: Date,
+            },
+        ],
+        default: [],
+    },
 });
 
 module.exports = mongoose.model("Customer", customerSchema);
