@@ -1,4 +1,9 @@
-const customerModel = require("../models/customerModel");
+const handleError = (res, action, err) => {
+    return res.status(500).json({
+        message: `Error while ${action} Customer`,
+        error: err.message,
+    });
+};
 
 module.exports = {
     index: async (req, res, next) => {
@@ -6,10 +11,7 @@ module.exports = {
             const customers = await customerModel.find({});
             return res.status(200).json(customers);
         } catch (err) {
-            return res.status(500).json({
-                message: "Error while fetching Customers",
-                error: err.message,
-            });
+            return handleError(res, "fetching", err);
         }
     },
 
@@ -25,10 +27,7 @@ module.exports = {
 
             return res.status(200).json(customer);
         } catch (err) {
-            return res.status(500).json({
-                message: "Error while fetching Customer",
-                error: err.message,
-            });
+            return handleError(res, "fetching", err);
         }
     },
 
@@ -48,10 +47,7 @@ module.exports = {
 
             return res.status(201).json(savedCustomer);
         } catch (error) {
-            return res.status(500).json({
-                message: "Error while creating Customer",
-                error: error.message,
-            });
+            return handleError(res, "creating", error);
         }
     },
 
@@ -69,12 +65,10 @@ module.exports = {
 
             return res.status(200).json(deletedCustomer);
         } catch (err) {
-            return res.status(500).json({
-                message: "Error while deleting Customer",
-                error: err.message,
-            });
+            return handleError(res, "deleting", err);
         }
     },
+
     update: async (req, res, next) => {
         try {
             const updatedCustomer = await customerModel.findByIdAndUpdate(
@@ -91,10 +85,7 @@ module.exports = {
 
             return res.status(200).json(updatedCustomer);
         } catch (err) {
-            return res.status(500).json({
-                message: "Error while updating Customer",
-                error: err.message,
-            });
+            return handleError(res, "updating", err);
         }
     },
 };
