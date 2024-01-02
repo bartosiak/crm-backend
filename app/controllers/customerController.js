@@ -5,6 +5,12 @@ const handleError = (res, action, err) => {
     });
 };
 
+const responseNotFound = (res, resource) => {
+    return res.status(404).json({
+        message: `${resource} not found`,
+    });
+};
+
 module.exports = {
     index: async (req, res, next) => {
         try {
@@ -20,9 +26,7 @@ module.exports = {
             const customer = await customerModel.findById(req.params.id);
 
             if (!customer) {
-                return res.status(404).json({
-                    message: "Customer not found",
-                });
+                return responseNotFound(res, "Customer");
             }
 
             return res.status(200).json(customer);
@@ -58,9 +62,7 @@ module.exports = {
             );
 
             if (!deletedCustomer) {
-                return res.status(404).json({
-                    message: "Customer not found",
-                });
+                return responseNotFound(res, "Customer");
             }
 
             return res.status(200).json(deletedCustomer);
@@ -77,10 +79,8 @@ module.exports = {
                 { new: true }
             );
 
-            if (!updatedCustomer) {
-                return res.status(404).json({
-                    message: "Customer not found",
-                });
+            if (!customer) {
+                return responseNotFound(res, "Customer");
             }
 
             return res.status(200).json(updatedCustomer);
