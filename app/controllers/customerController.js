@@ -1,3 +1,5 @@
+const customerModel = require("../models/customerModel");
+
 const handleError = (res, action, err) => {
     return res.status(500).json({
         message: `Error while ${action} Customer`,
@@ -79,7 +81,7 @@ module.exports = {
                 { new: true }
             );
 
-            if (!customer) {
+            if (!updatedCustomer) {
                 return responseNotFound(res, "Customer");
             }
 
