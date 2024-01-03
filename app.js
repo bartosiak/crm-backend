@@ -20,7 +20,7 @@ app.use(cors());
 
 const customerRouter = require("./app/router/customerRouter");
 
-app.use("/", customerRouter);
+app.use("/customers", customerRouter);
 
 app.listen(config.app.port, () => {
     console.log(`Express server is running on port: ${config.app.port}`);

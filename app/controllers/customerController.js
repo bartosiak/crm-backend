@@ -1,4 +1,4 @@
-const customerModel = require("../models/customerModel");
+const customerModel = require("../models/CustomerModel");
 
 const handleError = (res, action, err) => {
     return res.status(500).json({
@@ -14,7 +14,7 @@ const responseNotFound = (res, resource) => {
 };
 
 module.exports = {
-    index: async (req, res, next) => {
+    index: async (_req, res) => {
         try {
             const customers = await customerModel.find({});
             return res.status(200).json(customers);
@@ -23,7 +23,7 @@ module.exports = {
         }
     },
 
-    show: async (req, res, next) => {
+    show: async (req, res) => {
         try {
             const customer = await customerModel.findById(req.params.id);
 
@@ -37,17 +37,9 @@ module.exports = {
         }
     },
 
-    create: async (req, res, next) => {
+    create: async (_req, res) => {
         try {
-            const newCustomer = new customerModel({
-                name: req.body.name,
-                address: {
-                    street: req.body.address.street,
-                    zipCode: req.body.address.zipCode,
-                    city: req.body.address.city,
-                },
-                nip: req.body.nip,
-            });
+            const newCustomer = new customerModel(res.body);
 
             const savedCustomer = await newCustomer.save();
 
@@ -57,7 +49,7 @@ module.exports = {
         }
     },
 
-    delete: async (req, res, next) => {
+    delete: async (req, res) => {
         try {
             const deletedCustomer = await customerModel.findByIdAndDelete(
                 req.params.id
@@ -73,7 +65,7 @@ module.exports = {
         }
     },
 
-    update: async (req, res, next) => {
+    update: async (req, res) => {
         try {
             const updatedCustomer = await customerModel.findByIdAndUpdate(
                 req.params.id,
