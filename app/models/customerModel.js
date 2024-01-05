@@ -15,19 +15,7 @@ const CustomerSchema = new Schema({
         required: true,
     },
     nip: String,
-    actions: {
-        type: [
-            {
-                description: String,
-                type: {
-                    type: String,
-                    enum: ["mail", "phone", "meeting"],
-                },
-                date: Date,
-            },
-        ],
-        default: [],
-    },
+    actions: [{ type: Schema.Types.ObjectId, ref: "Action" }],
 });
 
 module.exports = mongoose.model("Customer", CustomerSchema);

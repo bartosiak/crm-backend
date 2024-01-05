@@ -1,4 +1,5 @@
 const CustomerModel = require("../models/CustomerModel");
+const ActionModel = require("../models/ActionModel");
 
 const handleError = (res, action, err) => {
     return res.status(500).json({
@@ -16,8 +17,8 @@ const responseNotFound = (res, resource) => {
 module.exports = {
     index: async (_req, res) => {
         try {
-            const customers = await CustomerModel.find({});
-            return res.status(200).json(customers);
+            const actions = await ActionModel.find({});
+            return res.status(200).json(actions);
         } catch (err) {
             return handleError(res, "fetching", err);
         }
@@ -25,7 +26,7 @@ module.exports = {
 
     show: async (req, res) => {
         try {
-            const customer = await CustomerModel.findById(req.params.id);
+            const customer = await ActionModel.findById(req.params.id);
 
             if (!customer) {
                 return responseNotFound(res, "Customer");
@@ -39,11 +40,16 @@ module.exports = {
 
     create: async (req, res) => {
         try {
-            const newCustomer = new CustomerModel(req.body);
+            const newAction = new ActionModel(req.body);
+            console.log(req.body);
+            const savedAction = await newAction.save();
 
-            const savedCustomer = await newCustomer.save();
+            await CustomerModel.updateOne(
+                { _id: req.body.customer },
+                { $push: { actions: newAction._id } }
+            );
 
-            return res.status(201).json(savedCustomer);
+            return res.status(201).json(savedAction);
         } catch (error) {
             return handleError(res, "creating", error);
         }
@@ -51,7 +57,7 @@ module.exports = {
 
     delete: async (req, res) => {
         try {
-            const deletedCustomer = await CustomerModel.findByIdAndDelete(
+            const deletedCustomer = await ActionModel.findByIdAndDelete(
                 req.params.id
             );
 
@@ -67,7 +73,7 @@ module.exports = {
 
     update: async (req, res) => {
         try {
-            const updatedCustomer = await CustomerModel.findByIdAndUpdate(
+            const updatedCustomer = await ActionModel.findByIdAndUpdate(
                 req.params.id,
                 req.body,
                 { new: true }
