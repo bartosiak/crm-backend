@@ -45,7 +45,7 @@ module.exports = {
             const savedAction = await newAction.save();
 
             await CustomerModel.updateOne(
-                { _id: req.body.customer },
+                { _id: req.body.customerId },
                 { $push: { actions: newAction._id } }
             );
 

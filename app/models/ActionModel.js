@@ -8,7 +8,7 @@ const ActionSchema = new Schema({
         enum: ["mail", "phone", "meeting"],
     },
     date: Date,
-    customer: { type: Schema.Types.ObjectId, ref: 'Customer' }
+    customerId: { type: Schema.Types.ObjectId, ref: "Customer" },
 });
 
 module.exports = mongoose.model("Action", ActionSchema);
