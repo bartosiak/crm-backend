@@ -15,9 +15,12 @@ const responseNotFound = (res, resource) => {
 };
 
 module.exports = {
-    index: async (_req, res) => {
+    index: async (req, res) => {
+        const query = req.query.customerId
+            ? { customerId: req.query.customerId }
+            : {};
         try {
-            const actions = await ActionModel.find({});
+            const actions = await ActionModel.find(query);
             return res.status(200).json(actions);
         } catch (err) {
             return handleError(res, "fetching", err);
@@ -26,13 +29,11 @@ module.exports = {
 
     show: async (req, res) => {
         try {
-            const customer = await ActionModel.findById(req.params.id);
-
-            if (!customer) {
-                return responseNotFound(res, "Customer");
+            const action = await ActionModel.findById(req.params.id);
+            if (!action) {
+                return responseNotFound(res, "Action");
             }
-
-            return res.status(200).json(customer);
+            return res.status(200).json(action);
         } catch (err) {
             return handleError(res, "fetching", err);
         }
