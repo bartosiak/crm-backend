@@ -58,15 +58,20 @@ module.exports = {
 
     delete: async (req, res) => {
         try {
-            const deletedCustomer = await ActionModel.findByIdAndDelete(
+            const deletedAction = await ActionModel.findByIdAndDelete(
                 req.params.id
             );
 
-            if (!deletedCustomer) {
-                return responseNotFound(res, "Customer");
+            if (!deletedAction) {
+                return responseNotFound(res, "Action");
             }
 
-            return res.status(200).json(deletedCustomer);
+            await CustomerModel.updateOne(
+                { _id: req.body.customerId },
+                { $pull: { actions: req.params.id } }
+            );
+
+            return res.status(200).json(deletedAction);
         } catch (err) {
             return handleError(res, "deleting", err);
         }
