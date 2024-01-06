@@ -79,17 +79,17 @@ module.exports = {
 
     update: async (req, res) => {
         try {
-            const updatedCustomer = await ActionModel.findByIdAndUpdate(
+            const updatedAction = await ActionModel.findByIdAndUpdate(
                 req.params.id,
                 req.body,
                 { new: true }
             );
 
-            if (!updatedCustomer) {
-                return responseNotFound(res, "Customer");
+            if (!updatedAction) {
+                return responseNotFound(res, "Action");
             }
 
-            return res.status(200).json(updatedCustomer);
+            return res.status(200).json(updatedAction);
         } catch (err) {
             return handleError(res, "updating", err);
         }
