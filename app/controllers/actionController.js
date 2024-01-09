@@ -3,7 +3,7 @@ const ActionModel = require("../models/ActionModel");
 
 const handleError = (res, action, err) => {
     return res.status(500).json({
-        message: `Error while ${action} Customer`,
+        message: `Error while ${action} Actions`,
         error: err.message,
     });
 };
@@ -16,8 +16,9 @@ const responseNotFound = (res, resource) => {
 
 module.exports = {
     index: async (req, res) => {
-        const query = req.query.customerId
-            ? { customerId: req.query.customerId }
+        console.log(req.query.customer);
+        const query = req.query.customer
+            ? { customer: req.query.customer }
             : {};
         try {
             const actions = await ActionModel.find(query);
@@ -46,7 +47,7 @@ module.exports = {
             const savedAction = await newAction.save();
 
             await CustomerModel.updateOne(
-                { _id: req.body.customerId },
+                { _id: req.body.customer },
                 { $push: { actions: newAction._id } }
             );
 

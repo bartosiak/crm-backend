@@ -1,4 +1,5 @@
 const CustomerModel = require("../models/CustomerModel");
+const ActionModel = require("../models/ActionModel");
 
 const handleError = (res, action, err) => {
     return res.status(500).json({
@@ -25,7 +26,9 @@ module.exports = {
 
     show: async (req, res) => {
         try {
-            const customer = await CustomerModel.findById(req.params.id);
+            const customer = await CustomerModel.findById(
+                req.params.id
+            ).populate("actions");
 
             if (!customer) {
                 return responseNotFound(res, "Customer");

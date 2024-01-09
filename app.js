@@ -22,7 +22,7 @@ const customerRouter = require("./app/router/customerRouter");
 const actionRouter = require("./app/router/actionRouter");
 
 app.use("/customers", customerRouter);
-app.use("/action", actionRouter);
+app.use("/actions", actionRouter);
 
 app.listen(config.app.port, () => {
     console.log(`Express server is running on port: ${config.app.port}`);
