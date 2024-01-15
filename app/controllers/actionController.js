@@ -16,7 +16,6 @@ const responseNotFound = (res, resource) => {
 
 module.exports = {
     index: async (req, res) => {
-        console.log(req.query.customer);
         const query = req.query.customer
             ? { customer: req.query.customer }
             : {};
@@ -43,7 +42,6 @@ module.exports = {
     create: async (req, res) => {
         try {
             const newAction = new ActionModel(req.body);
-            console.log(req.body);
             const savedAction = await newAction.save();
 
             await CustomerModel.updateOne(
@@ -68,7 +66,7 @@ module.exports = {
             }
 
             await CustomerModel.updateOne(
-                { _id: req.body.customerId },
+                { _id: deletedAction.customer },
                 { $pull: { actions: req.params.id } }
             );
 

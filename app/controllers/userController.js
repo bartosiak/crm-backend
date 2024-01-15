@@ -28,6 +28,7 @@ module.exports = {
 
                 if (logged) {
                     const token = user.generateAuthToken(user);
+                    res.cookie("token", token);
                     res.status(200).json({ user: user, jwt: token });
                 } else {
                     res.status(400).json({
