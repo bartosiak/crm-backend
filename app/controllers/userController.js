@@ -3,7 +3,16 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
     create: async (req, res) => {
+        const existingUser = await User.findOne({ email: req.body.email });
+
+        if (existingUser) {
+            return res.status(409).json({
+                error: "User already exists with the provided email address",
+            });
+        }
+
         const newUser = new User(req.body);
+
         try {
             await newUser.save();
             res.status(201).json(newUser);
