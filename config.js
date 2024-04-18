@@ -1,10 +1,13 @@
+require("dotenv").config();
+const PORT = process.env.PORT;
+const MONGODB_URI = process.env.MONGODB_URI;
+
 module.exports = {
     app: {
-        port: 4000,
+        port: PORT,
     },
+
     db: {
-        host: "localhost",
-        port: 27017,
-        name: "crm",
+        uri: MONGODB_URI,
     },
 };

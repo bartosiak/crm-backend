@@ -7,7 +7,7 @@ module.exports = {
         const newUser = new User(req.body);
 
         try {
-            const existingUser = await User.findOn({ email: req.body.email });
+            const existingUser = await User.findOne({ email: req.body.email });
 
             if (existingUser) {
                 return res

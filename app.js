@@ -2,7 +2,7 @@ const config = require("./config");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const mongoUrl = `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`;
+const mongoUrl = config.db.uri;
 const cookieParser = require("cookie-parser");
 
 mongoose
