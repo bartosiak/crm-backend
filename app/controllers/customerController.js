@@ -1,5 +1,4 @@
 const CustomerModel = require("../models/CustomerModel");
-const ActionModel = require("../models/ActionModel");
 
 const handleError = (res, action, err) => {
     return res.status(500).json({
